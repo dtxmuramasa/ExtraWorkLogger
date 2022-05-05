@@ -60,6 +60,11 @@
                 localStorage.setItem('conf_data', new_conf_data_json);
                 updateConfFormValue();
             })
+
+            //■設定のデフォルト値を勤怠登録フォームに埋め込む
+            $('input[name=work_attendance_time]').val(conf_data.attendance_time);
+            $('input[name=work_leave_time]').val(conf_data.leave_time);
+            $('input[name=work_break_time]').val(conf_data.break_time);
 		})
 	</script>
 
