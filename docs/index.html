@@ -37,14 +37,20 @@
                 ? JSON.parse(load_conf_data)
                 : {scheduled_time: 700, break_time: 100, attendance_time: 1700, leave_time: 2430};
 
-            //・設定更新フォームに現在の値を埋め込む
-            const updateConfFormValue = () => {
+            //・各種表示を最新の設定情報で更新
+            const refleshFormValuesByConfData = () => {
+                //設定更新フォームの更新
                 $('input[name=conf_schedule]').val(conf_data.scheduled_time);
                 $('input[name=conf_break]').val(conf_data.break_time);
                 $('input[name=conf_attendance_time]').val(conf_data.attendance_time);
                 $('input[name=conf_leave_time]').val(conf_data.leave_time);
+
+                //勤怠登録フォームの更新
+                $('input[name=work_attendance_time]').val(conf_data.attendance_time);
+                $('input[name=work_leave_time]').val(conf_data.leave_time);
+                $('input[name=work_break_time]').val(conf_data.break_time);
             }
-            updateConfFormValue();
+            refleshFormValuesByConfData();
 
             //■設定データの更新処理
             $('button[data-action=exec_updateConf]').on('click', () => {
@@ -58,13 +64,8 @@
                 console.log(`new_conf_data: ${new_conf_data}`);
                 console.log(new_conf_data_json);
                 localStorage.setItem('conf_data', new_conf_data_json);
-                updateConfFormValue();
-            })
-
-            //■設定のデフォルト値を勤怠登録フォームに埋め込む
-            $('input[name=work_attendance_time]').val(conf_data.attendance_time);
-            $('input[name=work_leave_time]').val(conf_data.leave_time);
-            $('input[name=work_break_time]').val(conf_data.break_time);
+                refleshFormValuesByConfData();
+            })            
 		})
 	</script>
 
