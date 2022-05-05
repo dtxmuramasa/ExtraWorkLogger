@@ -35,12 +35,14 @@
             var load_conf_data = localStorage.getItem('conf_data');
             const conf_data = (load_conf_data !== null)
                 ? JSON.parse(load_conf_data)
-                : {scheduled_time: 700, break_time: 100};
+                : {scheduled_time: 700, break_time: 100, attendance_time: 1700, leave_time: 2430};
 
             //・設定更新フォームに現在の値を埋め込む
             const updateConfFormValue = () => {
                 $('input[name=conf_schedule]').val(conf_data.scheduled_time);
                 $('input[name=conf_break]').val(conf_data.break_time);
+                $('input[name=conf_attendance_time]').val(conf_data.attendance_time);
+                $('input[name=conf_leave_time]').val(conf_data.leave_time);
             }
             updateConfFormValue();
 
@@ -50,6 +52,8 @@
                 var new_conf_data = conf_data;
                 new_conf_data.scheduled_time = parseInt($('input[name=conf_schedule]').val());
                 new_conf_data.break_time = parseInt($('input[name=conf_break]').val());
+                new_conf_data.attendance_time = parseInt($('input[name=conf_attendance_time]').val());
+                new_conf_data.leave_time = parseInt($('input[name=conf_leave_time]').val());
                 const new_conf_data_json = JSON.stringify(new_conf_data);
                 console.log(`new_conf_data: ${new_conf_data}`);
                 console.log(new_conf_data_json);
@@ -75,6 +79,19 @@
             ※七時間(7:00)であれば「700」。<br>
             ※七時間(7:30)半であれば「730」。<br>
             <input type="number" name="conf_schedule">
+        </p>
+        <p>
+            ●デフォルトの出勤時間<br>
+            ※9：30出勤であれば「930」。<br>
+            ※17:00出勤であれば「1700」。<br>
+            <input type="number" name="conf_attendance_time">
+        </p>
+        <p>
+            ●デフォルトの退勤時間<br>
+            ※17:30退勤であれば「1730」。<br>
+            ※24:30退勤であれば「2430」。<br>
+            ※深夜02:00退勤であれば「2600」。<br>
+            <input type="number" name="conf_leave_time">
         </p>
         <p>
             ●デフォルトの休憩時間<br>
