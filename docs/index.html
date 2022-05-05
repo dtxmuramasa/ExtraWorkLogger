@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<title>残業時間記録 ― プロトタイプ版</title>
+	
+	<!-- load libraries -->
+	<!-- jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.12.0/themes/cupertino/jquery-ui.min.css" />
+
+	<!-- jQuery Plugins -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.2/jstree.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+</head>
+<body>
+	<script language="javascript">
+		$(() => {
+            //■環境チェック
+            //・WebStorageが利用可能な環境かどうかチェックし、利用可能でないなら警告を出して処理を終了する。
+            const checkEnableWebStorage = 'checkEnableWebStorage';
+            try{
+                localStorage.setItem(checkEnableWebStorage, checkEnableWebStorage);
+                localStorage.removeItem(checkEnableWebStorage);
+            }
+            catch(e){
+                $('p#disableWebStorageWarning').css('display', true);
+                return;
+            }
+		})
+	</script>
+
+    <p id="disableWebStorageWarning" style="display: none;">
+        ※当ツールはWebStorageを利用しています。<br>
+        ご利用の環境ではWebStorageの利用が制限されているため、当ツールはご利用いただけません。<br>
+        ブラウザの設定から、WebStorageの設定を変更した上で再度アクセスしてください。
+    </p>
+</body>
+</html>
