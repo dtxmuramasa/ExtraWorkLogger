@@ -42,6 +42,7 @@
                 $('input[name=conf_schedule]').val(conf_data.scheduled_time);
                 $('input[name=conf_break]').val(conf_data.break_time);
             }
+            updateConfFormValue();
 
             //■設定データの更新処理
             $('button[data-action=exec_updateConf]').on('click', () => {
