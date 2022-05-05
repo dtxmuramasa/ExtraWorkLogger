@@ -12,9 +12,15 @@
 	<!-- jQuery Plugins -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.2/jstree.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+    <!-- LINQ.js -->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/linq@4.0.0/linq.min.js"></script>
 </head>
 <body>
-	<script language="javascript">
+	<script type="module" language="javascript">
+        //■LINQ.jsからモジュール読み込み
+        import Enumerable from 'https://cdn.jsdelivr.net/npm/linq@4.0.0/linq.min.js'
+
 		$(() => {
             //■環境チェック
             //・WebStorageが利用可能な環境かどうかチェックし、利用可能でないなら警告を出して処理を終了する。
@@ -86,6 +92,7 @@
                 console.log(new_working_data);
                 working_data[$('input[name=work_date]').val()] = new_working_data;
                 console.log(working_data);
+                Enumerable.from(working_data).forEach(a => {console.log(a);});
             })
 		})
 	</script>
