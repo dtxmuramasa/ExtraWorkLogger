@@ -52,6 +52,13 @@
             }
             refleshFormValuesByConfData();
 
+            //■勤怠データの読み込み
+            var load_working_data = localStorage.getItem('working_data');
+            const working_data = (load_working_data !== null)
+                ? JSON.parse(load_working_data)
+                : new Array();
+            console.log(working_data);
+
             //■設定データの更新処理
             $('button[data-action=exec_updateConf]').on('click', () => {
                 console.log('exec_updateConf');
@@ -65,7 +72,7 @@
                 console.log(new_conf_data_json);
                 localStorage.setItem('conf_data', new_conf_data_json);
                 refleshFormValuesByConfData();
-            })            
+            })
 		})
 	</script>
 
