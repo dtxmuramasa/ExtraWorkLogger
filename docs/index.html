@@ -27,13 +27,63 @@
                 $('p#disableWebStorageWarning').css('display', true);
                 return;
             }
+
+
+
+            //■設定データの読み込み
+            //・設定データが存在しなければ初期値を読み込む
+            var load_conf_data = localStorage.getItem('conf_data');
+            const conf_data = (load_conf_data !== null)
+                ? JSON.parse(load_conf_data)
+                : {scheduled_time: 700, break_time: 100};
+
+            //・設定更新フォームに現在の値を埋め込む
+            const updateConfFormValue = () => {
+                $('input[name=conf_schedule]').val(conf_data.scheduled_time);
+                $('input[name=conf_break]').val(conf_data.break_time);
+            }
+
+            //■設定データの更新処理
+            $('button[data-action=exec_updateConf]').on('click', () => {
+                console.log('exec_updateConf');
+                var new_conf_data = conf_data;
+                new_conf_data.scheduled_time = parseInt($('input[name=conf_schedule]').val());
+                new_conf_data.break_time = parseInt($('input[name=conf_break]').val());
+                const new_conf_data_json = JSON.stringify(new_conf_data);
+                console.log(`new_conf_data: ${new_conf_data}`);
+                console.log(new_conf_data_json);
+                localStorage.setItem('conf_data', new_conf_data_json);
+                updateConfFormValue();
+            })
 		})
 	</script>
+
+
 
     <p id="disableWebStorageWarning" style="display: none;">
         ※当ツールはWebStorageを利用しています。<br>
         ご利用の環境ではWebStorageの利用が制限されているため、当ツールはご利用いただけません。<br>
         ブラウザの設定から、WebStorageの設定を変更した上で再度アクセスしてください。
     </p>
+
+
+
+    <form name="configure_form">
+        <p>
+            ●所定内労働時間<br>
+            ※七時間であれば「700」。<br>
+            <input type="number" name="conf_schedule">
+        </p>
+        <p>
+            ●デフォルトの休憩時間<br>
+            ※一時間(01:00)休憩の場合は「100」。<br>
+            ※45分(0:45)休憩の場合は「045」。<br>
+            ※休憩を取らなかった場合は「000」。<br>
+            <input type="number" name="conf_break">
+        </p>
+        <p>
+            <button type="button" data-action="exec_updateConf">設定を保存</button>
+        </p>
+    </form>
 </body>
 </html>
