@@ -87,5 +87,37 @@
             <button type="button" data-action="exec_updateConf">設定を保存</button>
         </p>
     </form>
+
+
+
+    <form name="register_form">
+        <p>
+            ●日付<br>
+            <input type="date" name="work_date">
+        </p>
+        <p>
+            ●出勤時間<br>
+            ※9：30出勤であれば「930」。<br>
+            ※17:00出勤であれば「1700」。<br>
+            <input type="number" name="work_attendance_time">
+        </p>
+        <p>
+            ●退勤時間<br>
+            ※17:30退勤であれば「1730」。<br>
+            ※24:30退勤であれば「2430」。<br>
+            ※深夜02:00退勤であれば「2600」。<br>
+            <input type="number" name="work_leave_time">
+        </p>
+        <p>
+            ●休憩時間<br>
+            ※一時間(01:00)休憩の場合は「100」。<br>
+            ※45分(0:45)休憩の場合は「45」。<br>
+            ※休憩を取らなかった場合は「0」。<br>
+            <input type="number" name="work_break_time">
+        </p>
+        <p>
+            <button type="button" data-action="exec_registerWorking">勤怠登録</button>
+        </p>
+    </form>
 </body>
 </html>
