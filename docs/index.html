@@ -73,6 +73,20 @@
                 localStorage.setItem('conf_data', new_conf_data_json);
                 refleshFormValuesByConfData();
             })
+
+            //■勤怠データの登録
+            $('button[data-action=exec_registerWorking]').on('click', () => {
+                console.log('exec_registerWorking');
+                var new_working_data = {
+                    work_date: $('input[name=work_date]').val(),
+                    attendance_time: $('input[name=work_attendance_time]').val(),
+                    leave_time: $('input[name=work_leave_time]').val(),
+                    break_time: $('input[name=work_break_time]').val(),
+                }
+                console.log(new_working_data);
+                working_data[$('input[name=work_date]').val()] = new_working_data;
+                console.log(working_data);
+            })
 		})
 	</script>
 
