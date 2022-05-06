@@ -67,20 +67,29 @@
             // console.log(working_data);
 
 			const refleshWorkingDataList = () => {
+                var total_extra_time = 0;
+                const extract_target_query = 'tbody#extract_target_working_data';
 				Enumerable.from(working_data).forEach(record => {
 					const working_time = record.value.leave_time - record.value.attendance_time - record.value.break_time;
-					const extract_target = $('tbody#extract_target_working_data').append(`
+                    const extra_time = (working_time > conf_data.scheduled_time) ? working_time - conf_data.scheduled_time : 0;
+                    total_extra_time += extra_time;
+					const extract_target = $(extract_target_query).append(`
 						<tr id="record_${record.key}">
 							<td>${record.value.work_date}</td>
 							<td>${record.value.attendance_time}</td>
 							<td>${record.value.leave_time}</td>
 							<td>${record.value.break_time}</td>
 							<td>${working_time}</td>
-							<td>${(working_time > conf_data.scheduled_time) ? working_time - conf_data.scheduled_time : 0}</td>
+							<td>${extra_time}</td>
 						</tr>
 					`);
 					extract_target.add(`<td></td>`)
 				});
+                $(extract_target_query).append(`
+                    <tr>
+                        <td colspan="6">累計残業時間：${total_extra_time}</td>
+                    </tr>
+                `);
 			} 
 			refleshWorkingDataList();
 
