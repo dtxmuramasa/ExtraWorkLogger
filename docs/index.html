@@ -63,8 +63,26 @@
             const working_data = (load_working_data !== null)
                 ? JSON.parse(load_working_data)
                 : {};
-            console.log('load working data');
-            console.log(working_data);
+            // console.log('load working data');
+            // console.log(working_data);
+
+			const refleshWorkingDataList = () => {
+				Enumerable.from(working_data).forEach(record => {
+					const working_time = record.value.leave_time - record.value.attendance_time - record.value.break_time;
+					const extract_target = $('tbody#extract_target_working_data').append(`
+						<tr id="record_${record.key}">
+							<td>${record.value.work_date}</td>
+							<td>${record.value.attendance_time}</td>
+							<td>${record.value.leave_time}</td>
+							<td>${record.value.break_time}</td>
+							<td>${working_time}</td>
+							<td>${(working_time > conf_data.scheduled_time) ? working_time - conf_data.scheduled_time : 0}</td>
+						</tr>
+					`);
+					extract_target.add(`<td></td>`)
+				});
+			} 
+			refleshWorkingDataList();
 
             //■設定データの更新処理
             $('button[data-action=exec_updateConf]').on('click', () => {
@@ -75,27 +93,27 @@
                 new_conf_data.attendance_time = parseInt($('input[name=conf_attendance_time]').val());
                 new_conf_data.leave_time = parseInt($('input[name=conf_leave_time]').val());
                 const new_conf_data_json = JSON.stringify(new_conf_data);
-                console.log(`new_conf_data: ${new_conf_data}`);
-                console.log(new_conf_data_json);
+                // console.log(`new_conf_data: ${new_conf_data}`);
+                // console.log(new_conf_data_json);
                 localStorage.setItem('conf_data', new_conf_data_json);
                 refleshFormValuesByConfData();
             })
 
             //■勤怠データの登録
             $('button[data-action=exec_registerWorking]').on('click', () => {
-                console.log('exec_registerWorking');
+                // console.log('exec_registerWorking');
                 var new_working_data = {
                     work_date: $('input[name=work_date]').val(),
                     attendance_time: $('input[name=work_attendance_time]').val(),
                     leave_time: $('input[name=work_leave_time]').val(),
                     break_time: $('input[name=work_break_time]').val(),
                 }
-                console.log(new_working_data);
+                // console.log(new_working_data);
                 working_data[$('input[name=work_date]').val()] = new_working_data;
-                console.log(working_data);
-                Enumerable.from(working_data).forEach(a => {console.log(a);});
+                // console.log(working_data);
+                // Enumerable.from(working_data).forEach(a => {console.log(a);});
                 const working_data_json = JSON.stringify(working_data);
-                console.log(working_data_json);
+                // console.log(working_data_json);
                 localStorage.setItem('working_data', working_data_json);
             })
 		})
@@ -174,5 +192,22 @@
             <button type="button" data-action="exec_registerWorking">勤怠登録</button>
         </p>
     </form>
+
+    <p>
+        <table id="working_data_list">
+            <thead>
+                <tr>
+                    <th>日付</th>
+					<th>出勤時刻</th>
+					<th>退勤時刻</th>
+					<th>休憩時間</th>
+					<th>実労働時間</th>
+					<th>残業時間</th>
+                </tr>
+            </thead>
+			<tbody id="extract_target_working_data">
+			</tbody>
+        </table>
+    </p>
 </body>
 </html>
