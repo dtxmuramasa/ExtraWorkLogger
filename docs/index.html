@@ -95,6 +95,11 @@
                 return work_hour * 100 + work_minuets;
             }
 
+            const stringifyTime = (source) => {
+                var str = String(source).padStart(4, '0');
+                return `${str.substr(0, 2)}:${str.substr(2,2)}`;
+            }
+
 			const refleshWorkingDataList = () => {
                 var total_extra_time = 0;
                 const extract_target_query = 'tbody#extract_target_working_data';
@@ -105,18 +110,18 @@
 					const extract_target = $(extract_target_query).append(`
 						<tr id="record_${record.key}">
 							<td>${record.value.work_date}</td>
-							<td>${record.value.attendance_time}</td>
-							<td>${record.value.leave_time}</td>
-							<td>${record.value.break_time}</td>
-							<td>${working_time}</td>
-							<td>${extra_time}</td>
+							<td>${stringifyTime(record.value.attendance_time)}</td>
+							<td>${stringifyTime(record.value.leave_time)}</td>
+							<td>${stringifyTime(record.value.break_time)}</td>
+							<td>${stringifyTime(working_time)}</td>
+							<td>${stringifyTime(extra_time)}</td>
 						</tr>
 					`);
 					extract_target.add(`<td></td>`)
 				});
                 $(extract_target_query).append(`
                     <tr>
-                        <td colspan="6">累計残業時間：${total_extra_time}</td>
+                        <td colspan="6">累計残業時間：${stringifyTime(total_extra_time)}</td>
                     </tr>
                 `);
 			} 
