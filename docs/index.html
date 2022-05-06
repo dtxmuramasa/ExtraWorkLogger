@@ -158,6 +158,7 @@
                 const working_data_json = JSON.stringify(working_data);
                 // console.log(working_data_json);
                 localStorage.setItem('working_data', working_data_json);
+                refleshWorkingDataList();
             })
 
             $('button[data-action=display_conf_form').on('click', () => {
