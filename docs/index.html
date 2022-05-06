@@ -63,6 +63,7 @@
             const working_data = (load_working_data !== null)
                 ? JSON.parse(load_working_data)
                 : {};
+            console.log('load working data');
             console.log(working_data);
 
             //■設定データの更新処理
@@ -93,6 +94,9 @@
                 working_data[$('input[name=work_date]').val()] = new_working_data;
                 console.log(working_data);
                 Enumerable.from(working_data).forEach(a => {console.log(a);});
+                const working_data_json = JSON.stringify(working_data);
+                console.log(working_data_json);
+                localStorage.setItem('working_data', working_data_json);
             })
 		})
 	</script>
