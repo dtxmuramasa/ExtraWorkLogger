@@ -66,11 +66,40 @@
             // console.log('load working data');
             // console.log(working_data);
 
+            const createTimeObjectByNumber = (source) => {
+                const time_string = String(source);
+                const length = time_string.length;
+                const time_object = {
+                    hour: (length > 2)
+                        ? (length > 3)
+                            ? parseInt(time_string.slice(0, 2))
+                            : parseInt(time_string.charAt(0))
+                        : 0,
+                    minutes: (length > 1)
+                        ? parseInt(time_string.slice(-2))
+                        : parseInt(time_string.slice(-1))
+                }
+                return time_object;
+            }
+
+            const calcWorkTime = (attendance_time, leave_time, break_time) => {
+                const attendanceObj = createTimeObjectByNumber(attendance_time);
+                const leaveObj = createTimeObjectByNumber(leave_time);
+                const breakObj = createTimeObjectByNumber(break_time);
+                var work_hour = leaveObj.hour - attendanceObj.hour - breakObj.hour;
+                var work_minuets = leaveObj.minutes - attendanceObj.minutes;
+                if(attendanceObj.minutes > leaveObj.minutes){
+                    work_hour -= 1;
+                    work_minuets = 60 + work_minuets;
+                }
+                return work_hour * 100 + work_minuets;
+            }
+
 			const refleshWorkingDataList = () => {
                 var total_extra_time = 0;
                 const extract_target_query = 'tbody#extract_target_working_data';
 				Enumerable.from(working_data).forEach(record => {
-					const working_time = record.value.leave_time - record.value.attendance_time - record.value.break_time;
+                    const working_time = calcWorkTime(record.value.attendance_time, record.value.leave_time, record.value.break_time);
                     const extra_time = (working_time > conf_data.scheduled_time) ? working_time - conf_data.scheduled_time : 0;
                     total_extra_time += extra_time;
 					const extract_target = $(extract_target_query).append(`
@@ -195,6 +224,7 @@
             ※一時間(01:00)休憩の場合は「100」。<br>
             ※45分(0:45)休憩の場合は「45」。<br>
             ※休憩を取らなかった場合は「0」。<br>
+            ※休憩時間一時間か0以外はまだ作ってない。<br>
             <input type="number" name="work_break_time">
         </p>
         <p>
