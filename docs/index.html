@@ -159,6 +159,10 @@
                 // console.log(working_data_json);
                 localStorage.setItem('working_data', working_data_json);
             })
+
+            $('button[data-action=display_conf_form').on('click', () => {
+                $('form[name=configure_form]').toggle();
+            })
 		})
 	</script>
 
@@ -170,9 +174,11 @@
         ブラウザの設定から、WebStorageの設定を変更した上で再度アクセスしてください。
     </p>
 
+    <p>
+        <button type="button" data-action="display_conf_form">設定項目を表示／非表示</button>
+    </p>
 
-
-    <form name="configure_form">
+    <form name="configure_form" display="none">
         <p>
             ●所定内労働時間<br>
             ※七時間(7:00)であれば「700」。<br>
