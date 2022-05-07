@@ -95,6 +95,23 @@
                 return work_hour * 100 + work_minuets;
             }
 
+            const regulateTime = (source) => {
+                const time_string = String(source);
+                const length = time_string.length
+                var hour = (length > 2)
+                        ? (length > 3)
+                            ? parseInt(time_string.slice(0, 2))
+                            : parseInt(time_string.charAt(0))
+                        : 0;
+                
+                var minutes = (length > 1)
+                    ? parseInt(time_string.slice(-2))
+                    : parseInt(source);
+                
+                hour += parseInt(minutes / 60);
+                return parseInt(`${hour}${minutes % 60}`);
+            }
+
             const stringifyTime = (source) => {
                 var str = String(source).padStart(4, '0');
                 return `${str.substr(0, 2)}:${str.substr(2,2)}`;
@@ -121,7 +138,7 @@
 				});
                 $(extract_target_query).append(`
                     <tr>
-                        <td colspan="6">累計残業時間：${stringifyTime(total_extra_time)}</td>
+                        <td colspan="6">累計残業時間：${stringifyTime(regulateTime(total_extra_time))}</td>
                     </tr>
                 `);
 			} 
