@@ -120,6 +120,7 @@
 			const refleshWorkingDataList = () => {
                 var total_extra_time = 0;
                 const extract_target_query = 'tbody#extract_target_working_data';
+                $(extract_target_query).empty();
 				Enumerable.from(working_data).forEach(record => {
                     const working_time = calcWorkTime(record.value.attendance_time, record.value.leave_time, record.value.break_time);
                     const extra_time = (working_time > conf_data.scheduled_time) ? working_time - conf_data.scheduled_time : 0;
